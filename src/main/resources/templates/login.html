@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link rel="shortcut icon" type="image/png" href="/images/favicon.png" />
+
+    <title>Sign in / Sign up</title>
+
+    <!-- Custom styles for this template -->
+
+
+</head>
+
+<body>
+<div class="container">
+
+    <!--TODO フォームヘルパーの自作．ラベルいらない-->
+    <!--
+    @form(action = routes.HomeController.authenticate, 'class -> "form-signin") {
+    <h3 class="form-signin-heading">Please Login</h3>
+    @inputText(userForm("userId"), 'id -> "inputUserId", 'class -> "form-control", 'placeholder -> "UserID", 'required -> true, 'autofocus -> true, '_showConstraints -> false, '_label -> null)
+    @inputText(userForm("password"), 'id -> "inputPassword", 'class -> "form-control", 'placeholder -> "Password", '_showConstraints -> false, '_label -> null)
+    -->
+    <!--<div class="checkbox">
+    <label>
+        <input type="checkbox" value="remember-me"> Remember me
+    </label>
+</div>-->
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+    <!--
+    @CSRF.formField
+    }
+
+    @if(userForm.hasGlobalErrors) {
+    <p class="error">
+        @for(error <- userForm.globalErrors) {
+    <p>@Messages(error.messages, error.arguments.toArray: _*)</p>
+    }
+    </p>
+    }-->
+
+    <br /><br />
+
+
+<!--    @helper.form(action = routes.HomeController.registerPage, 'class -> "form-signin", 'method -> "get") {
+    <h3 class="form-signin-heading">...Or register account</h3>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Register Account</button>
+    }-->
+
+</div> <!-- /container -->
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="/css/signin.css" rel="stylesheet"/>
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+<script src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js'></script>
+</body>
+</html>
+
