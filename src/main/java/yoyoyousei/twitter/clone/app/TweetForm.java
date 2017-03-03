@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
  */
 public class TweetForm {
     @Size(min = 1,max = 255,message = "ツイートは1文字以上255文字以下です")
-    @Pattern(regexp = "[a-zA-Z0-9]*",message = "アルファベットまたは数字のみ使用できます")
+    //@Pattern(regexp = "[a-zA-Z0-9]*",message = "アルファベットまたは数字のみ使用できます")
     private String content;
 
     public String getContent() {
