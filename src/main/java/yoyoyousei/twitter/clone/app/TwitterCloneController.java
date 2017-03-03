@@ -59,13 +59,13 @@ public class TwitterCloneController {
 
 
     @PostMapping(value = "/")
-    String tweet(@Validated TweetForm form, BindingResult bindingResult,Model model){
+    String tweet(Principal principal,@Validated TweetForm form, BindingResult bindingResult,Model model){
         if(bindingResult.hasErrors()){
             Set<String> err=new HashSet<>();
             bindingResult.getAllErrors().forEach(e->err.add(e.getDefaultMessage()));
             model.addAttribute("errors",err);
-            //return timeline(principal,model);
-            return "redirect:/";
+            return timeline(principal,model);
+            //return "redirect:/";
         }
         Tweet tweet=new Tweet(form.getContent());
 
