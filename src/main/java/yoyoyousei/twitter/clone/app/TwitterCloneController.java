@@ -5,10 +5,7 @@ package yoyoyousei.twitter.clone.app;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,13 +13,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import yoyoyousei.twitter.clone.domain.model.Tweet;
 import yoyoyousei.twitter.clone.domain.model.User;
 import yoyoyousei.twitter.clone.domain.service.*;
 import yoyoyousei.twitter.clone.util.Util;
 
-import javax.persistence.Entity;
 import java.security.Principal;
 import java.util.*;
 
@@ -38,13 +33,13 @@ public class TwitterCloneController {
     public static final Logger log=LoggerFactory.getLogger(TwitterCloneController.class);
 
     @Autowired
-    TweetService tweetService;
+    private TweetService tweetService;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    TwitterCloneUserDetailsService userDetailsService;
+    private TwitterCloneUserDetailsService userDetailsService;
 
     @GetMapping(value= "/")
     String timeline(Principal principal,Model model){
@@ -53,7 +48,7 @@ public class TwitterCloneController {
         model.addAttribute("tweets",tweetService.findAllDesc());
         model.addAttribute("tweet",new Tweet());
 
-        model.addAttribute("userinfo", Util.getUserFromPrincipal(principal));
+        model.addAttribute("userinfo", Util.getUserDataFromPrincipal(principal));
         return "timeline";
     }
 
@@ -109,7 +104,7 @@ public class TwitterCloneController {
         log.info("scr:"+form.getScreenName());
 
         BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
-        User user=new User(form.getUserId(),encoder.encode(form.getPassword()),form.getScreenName());
+        User user=new User(form.getUserId(),encoder.encode(form.getPassword()),form.getScreenName(),"noicon");
         try{
             userService.create(user);
         }catch (UserIdAlreadyExistsException e){
@@ -132,6 +127,7 @@ public class TwitterCloneController {
     @GetMapping("/modify")
     String modifyUserDataPage(Model model){
         model.addAttribute("userForm",new UserForm());
+        //model.addAttribute("uploadForm",new UploadFileForm());
         return "mypage";
     }
     @PostMapping("/modify")
@@ -146,14 +142,14 @@ public class TwitterCloneController {
         }
 
         try {
-            User newUser = userService.find(Util.getUserFromPrincipal(principal).getUserId());
+            User newUser = userService.find(Util.getUserDataFromPrincipal(principal).getUserId());
             if (!Objects.equals(form.getScreenName(), ""))
                 newUser.setScreenName(form.getScreenName());
             if (!Objects.equals(form.getBiography(), ""))
                 newUser.setBiography(form.getBiography());
             userService.update(newUser);
 
-            Util.updateAuthenticate((Authentication) principal, newUser);
+            Util.updateAuthenticate(principal, newUser);
 
             model.addAttribute("userinfo",newUser);
         }catch (UserIdNotFoundException e){
@@ -169,8 +165,9 @@ public class TwitterCloneController {
             return "mypage";
         }
         return "redirect:/";
-
     }
+
+
 
 
 

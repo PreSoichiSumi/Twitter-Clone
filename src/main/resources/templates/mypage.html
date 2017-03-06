@@ -12,10 +12,20 @@
     </head>
     <body>
         <div class="container">
-            <p style="color: red;" th:each="e:${errors}" th:text="${e}"></p>
-            <form class="form-horizontal"  th:action="@{/modify}" method="post" th:object="${userForm}">
-                <fieldset>
-                    <legend>Change User Profile</legend>
+            <fieldset>
+                <legend>Change User Profile</legend>
+                <p style="color: red;" th:each="e:${errors}" th:text="${e}"></p>
+
+                <form class="form-horizontal" th:action="@{/files/icon/upload}" method="post"  enctype="multipart/form-data" >
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">User icon</label>
+                        <div class="col-md-4">
+                            <input id="input-1" type="file" class="file" name="icon"/>
+                        </div>
+                    </div>
+                </form>
+
+                <form class="form-horizontal"  th:action="@{/modify}" method="post" th:object="${userForm}">
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="screenname">HandleName</label>
                         <div class="col-md-4">
@@ -44,15 +54,18 @@
                             <button id="singlebutton" name="singlebutton" class="btn btn-primary">Submit</button>
                         </div>
                     </div>
-
-                </fieldset>
-            </form>
+                </form>
+            </fieldset>
         </div>
 
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
         <link href="/css/signin.css" rel="stylesheet" />
         <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
         <script src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js'></script>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.3.1/css/fileinput.min.css" />
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.3.1/js/fileinput.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.3.1/js/fileinput_locale_ja.min.js"></script>
     </body>
 </html>
 

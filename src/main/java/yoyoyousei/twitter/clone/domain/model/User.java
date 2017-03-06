@@ -29,15 +29,26 @@ public class User{
 
     private String biography;
 
-    public User() {
+    private String iconname;
+
+    public String getIconname() {
+        return iconname;
     }
 
-    public User(String userId, String password, String screenName) {
+    public void setIconname(String iconname) {
+        this.iconname = iconname;
+    }
+
+    public User(String userId, String password, String screenName, String iconname) {
         this.userId = userId;
         this.password = password;
         this.screenName = (screenName == null || screenName.equals("")) ?
-                        "no name" : screenName;
+                "no name" : screenName;
         this.roleName = RoleName.USER;
+        this.iconname = iconname;
+    }
+
+    public User() {
     }
 
     public String getBiography() {

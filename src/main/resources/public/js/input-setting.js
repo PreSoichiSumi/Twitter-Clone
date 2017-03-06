@@ -5,7 +5,7 @@
 //  -> http://plugins.krajee.com/file-input#installation
 $(document).on('ready', function() {
 
-    $("#input-20").fileinput({
+    $("#input-1").fileinput({
         browseClass: "btn btn-primary btn-block",
         showCaption: false,
         showRemove: false,
