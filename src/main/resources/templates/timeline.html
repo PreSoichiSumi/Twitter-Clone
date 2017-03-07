@@ -55,6 +55,7 @@
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-4">
                     <div class="well well-sm well-lg">
+                        <img th:src="${userinfo.iconpath}" class="img-responsive" />
                         <!--/*パラメータへのアクセスはgettersetterを用意しておいてドットでアクセス*/-->
                         <h3 th:text="${userinfo.screenName}"></h3>
                         <h4 th:text="${userinfo.biography}"></h4>

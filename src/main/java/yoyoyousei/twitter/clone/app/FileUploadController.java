@@ -7,7 +7,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
@@ -19,29 +18,30 @@ import yoyoyousei.twitter.clone.domain.service.upload.StorageFileNotFoundExcepti
 import yoyoyousei.twitter.clone.domain.service.upload.StorageService;
 import yoyoyousei.twitter.clone.util.Util;
 
-import java.io.IOError;
-import java.io.IOException;
+import java.nio.file.Path;
 import java.security.Principal;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Created by s-sumi on 2017/03/06.
  */
+
+//アップロードされたファイルをrootLocation以下に格納してファイル名を問い合わされたら提供する
 @Controller
 @RequestMapping("files")
 public class FileUploadController {
 
     public static final Logger log= LoggerFactory.getLogger(FileUploadController.class);
 
-    @Autowired
-    private UserService userService;
-
+    private final UserService userService;
     private final StorageService storageService;
 
     @Autowired
-    public FileUploadController(StorageService storageService){this.storageService=storageService;}
+    public FileUploadController(UserService userService, StorageService storageService) {
+        this.userService = userService;
+        this.storageService = storageService;
+    }
 
     /*@GetMapping("/")
     public String listUploadedFiles(Model model)throws IOException{
@@ -65,7 +65,10 @@ public class FileUploadController {
         String filename=storageService.store(file);
 
         User user = Util.getUserDataFromPrincipal(principal);
-        user.setIconname(filename);
+        Path path=storageService.load(filename);
+
+        user.setIconpath( getPathStrFromFilename(path.getFileName().toString()) );
+
         try{
             userService.update(user);
         }catch (UserIdNotFoundException e){
@@ -85,6 +88,11 @@ public class FileUploadController {
 
         return "redirect:/";
     }
+
+    public String getPathStrFromFilename(String filename){
+        return MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,"serveFile",filename).build().toString();
+    }
+
 
     @ExceptionHandler(StorageFileNotFoundException.class)
     public ResponseEntity handleStorageFileNotFound(StorageFileNotFoundException exc){

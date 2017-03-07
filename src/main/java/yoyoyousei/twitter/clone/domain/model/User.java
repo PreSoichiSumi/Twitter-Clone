@@ -1,8 +1,10 @@
 package yoyoyousei.twitter.clone.domain.model;
 
+import yoyoyousei.twitter.clone.util.Util;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import java.nio.file.Path;
 
 
 //デフォルトコンストラクタが必要
@@ -29,23 +31,23 @@ public class User{
 
     private String biography;
 
-    private String iconname;
+    private String iconpath;
 
-    public String getIconname() {
-        return iconname;
+    public String getIconpath() {
+        return iconpath;
     }
 
-    public void setIconname(String iconname) {
-        this.iconname = iconname;
+    public void setIconpath(String iconpath) {
+        this.iconpath = iconpath;
     }
 
-    public User(String userId, String password, String screenName, String iconname) {
+    public User(String userId, String password, String screenName) {
         this.userId = userId;
         this.password = password;
         this.screenName = (screenName == null || screenName.equals("")) ?
                 "no name" : screenName;
         this.roleName = RoleName.USER;
-        this.iconname = iconname;
+        this.iconpath = Util.getNoIcon();
     }
 
     public User() {
