@@ -37,7 +37,7 @@ public class Util {
 
 
 
-    public static User getUserDataFromPrincipal(Principal principal){
+    public static User getUserFromPrincipal(Principal principal){
         Authentication authentication=(Authentication)principal;
         TwitterCloneUserDetails userDetails=TwitterCloneUserDetails.class.cast(authentication.getPrincipal());
         return userDetails.getuser();

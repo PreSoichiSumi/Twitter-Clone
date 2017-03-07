@@ -4,7 +4,6 @@ import yoyoyousei.twitter.clone.util.Util;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.nio.file.Path;
 
 
 //デフォルトコンストラクタが必要
@@ -31,14 +30,14 @@ public class User{
 
     private String biography;
 
-    private String iconpath;
+    private String iconPath;
 
-    public String getIconpath() {
-        return iconpath;
+    public String getIconPath() {
+        return iconPath;
     }
 
-    public void setIconpath(String iconpath) {
-        this.iconpath = iconpath;
+    public void setIconPath(String iconPath) {
+        this.iconPath = iconPath;
     }
 
     public User(String userId, String password, String screenName) {
@@ -47,7 +46,7 @@ public class User{
         this.screenName = (screenName == null || screenName.equals("")) ?
                 "no name" : screenName;
         this.roleName = RoleName.USER;
-        this.iconpath = Util.getNoIcon();
+        this.iconPath = Util.getNoIcon();
     }
 
     public User() {

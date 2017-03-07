@@ -64,10 +64,10 @@ public class FileUploadController {
                                    RedirectAttributes redirectAttributes){
         String filename=storageService.store(file);
 
-        User user = Util.getUserDataFromPrincipal(principal);
+        User user = Util.getUserFromPrincipal(principal);
         Path path=storageService.load(filename);
 
-        user.setIconpath( getPathStrFromFilename(path.getFileName().toString()) );
+        user.setIconPath( getPathStrFromFilename(path.getFileName().toString()) );
 
         try{
             userService.update(user);

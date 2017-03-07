@@ -55,7 +55,7 @@
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-4">
                     <div class="well well-sm well-lg">
-                        <img th:src="${userinfo.iconpath}" class="img-responsive" />
+                        <img th:src="${userinfo.iconPath}" class="img-responsive" />
                         <!--/*パラメータへのアクセスはgettersetterを用意しておいてドットでアクセス*/-->
                         <h3 th:text="${userinfo.screenName}"></h3>
                         <h4 th:text="${userinfo.biography}"></h4>
@@ -72,7 +72,18 @@
                     </div>
                     <div class="row">
                         <ul class="list-group top-buffer">
-                            <li class="list-group-item" th:each="timeline: ${tweets}" th:text="${timeline.content}" />
+                            <li class="list-group-item" th:each="tweet: ${tweets}">
+                                <div class="row" >
+                                    <div class="col-lg-3 col-md-3 col-sm-2">
+                                        <img th:src="${tweet.tweetUser.iconPath}" class="img-responsive" />
+                                    </div>
+                                    <div class="h4" th:text="${tweet.tweetUser.screenName}" ></div><br/>
+                                    <div class="col-lg-9 col-md-9 col-sm-10" th:text="${tweet.content}"></div>
+                                </div>
+                                <div class="row">
+                                    <a class="pull-right" th:text="${#dates.format(tweet.postTime,'yyyy-MM-dd HH:mm:ss')}"></a>
+                                </div>
+                            </li>
                         </ul>
                     </div>
 

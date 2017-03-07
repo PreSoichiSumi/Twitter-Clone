@@ -22,18 +22,26 @@ public class Tweet {
                         //updatetimestampもある
     private Timestamp postTime;
 
-   /* @NotNull
-    private User tweetUser;*/
+    @ManyToOne
+    private User tweetUser;
 
     @NotNull
     private String content;
 
+    public User getTweetUser() {
+        return tweetUser;
+    }
+
+    public void setTweetUser(User tweetUser) {
+        this.tweetUser = tweetUser;
+    }
 
     public Tweet() {
     }
 
-    public Tweet(String content) {
+    public Tweet(String content , User tweetUser) {
         this.content = content;
+        this.tweetUser=tweetUser;
     }
 
     public Integer getTweetId() {

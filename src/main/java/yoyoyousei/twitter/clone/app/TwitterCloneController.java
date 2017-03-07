@@ -55,7 +55,7 @@ public class TwitterCloneController {
         model.addAttribute("tweets", tweetService.findAllDesc());
         //model.addAttribute("tweet",new Tweet());
 
-        User loggedinUser = Util.getUserDataFromPrincipal(principal);
+        User loggedinUser = Util.getUserFromPrincipal(principal);
 
         model.addAttribute("userinfo", loggedinUser);
         return "timeline";
@@ -71,7 +71,7 @@ public class TwitterCloneController {
             return timeline(principal, model);
             //return "redirect:/";
         }
-        Tweet tweet = new Tweet(form.getContent());
+        Tweet tweet = new Tweet(form.getContent(),Util.getUserFromPrincipal(principal));
 
         //tweetService.save(tweet);
         try {
@@ -150,7 +150,7 @@ public class TwitterCloneController {
         }
 
         try {
-            User newUser = userService.find(Util.getUserDataFromPrincipal(principal).getUserId());
+            User newUser = userService.find(Util.getUserFromPrincipal(principal).getUserId());
             if (!Objects.equals(form.getScreenName(), ""))
                 newUser.setScreenName(form.getScreenName());
             if (!Objects.equals(form.getBiography(), ""))
