@@ -55,10 +55,27 @@
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-4">
                     <div class="well well-sm well-lg">
-                        <img th:src="${userinfo.iconPath}" class="img-responsive" />
+                        <img th:src="${userinfo.iconPath}" class="img-responsive img-rounded" />
                         <!--/*パラメータへのアクセスはgettersetterを用意しておいてドットでアクセス*/-->
                         <h3 th:text="${userinfo.screenName}"></h3>
                         <h4 th:text="${userinfo.biography}"></h4>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">おすすめユーザー</div>
+                        <div class="panel-body">
+                            <h4 th:if="${#lists.size(recommend)==0}">全ユーザをフォロー済みです</h4>
+                            <ul class="list-group" th:each="u:${recommend}">
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-3">
+                                        <!--/*alt="Responsive image" で画像がグリッドに合わせてレスポンシブになる*/-->
+                                        <img th:src="${u.iconPath}" class="img-responsive img-rounded" alt="Responsive image" />
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-7">
+                                        <h4 class="pull-left" th:text="${u.screenName}" ></h4>
+                                    </div>
+                                </div>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-9 col-md-9 col-sm-8">
@@ -73,15 +90,15 @@
                     <div class="row">
                         <ul class="list-group top-buffer">
                             <li class="list-group-item" th:each="tweet: ${tweets}">
-                                <div class="row" >
-                                    <div class="col-lg-3 col-md-3 col-sm-2">
-                                        <img th:src="${tweet.tweetUser.iconPath}" class="img-responsive" />
-                                    </div>
-                                    <div class="h4" th:text="${tweet.tweetUser.screenName}" ></div><br/>
-                                    <div class="col-lg-9 col-md-9 col-sm-10" th:text="${tweet.content}"></div>
-                                </div>
                                 <div class="row">
-                                    <a class="pull-right" th:text="${#dates.format(tweet.postTime,'yyyy-MM-dd HH:mm:ss')}"></a>
+                                    <div class="col-lg-3 col-md-3 col-sm-2">
+                                        <img th:src="${tweet.tweetUser.iconPath}" class="img-responsive img-rounded" alt="Responsive image"/>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-10">
+                                        <p class="h4" th:text="${tweet.tweetUser.screenName}"></p>
+                                        <p class="h5" th:text="${tweet.content}"></p>
+                                        <a class="pull-right" th:text="${#dates.format(tweet.postTime,'yyyy-MM-dd HH:mm:ss')}"></a>
+                                    </div>
                                 </div>
                             </li>
                         </ul>
