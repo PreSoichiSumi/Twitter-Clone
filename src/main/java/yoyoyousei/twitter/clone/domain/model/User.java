@@ -4,6 +4,7 @@ import yoyoyousei.twitter.clone.util.Util;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 
 //デフォルトコンストラクタが必要
@@ -32,13 +33,19 @@ public class User{
 
     private String iconPath;
 
-    public String getIconPath() {
-        return iconPath;
-    }
+    //双方向ならmappedbyが必要で、どのプロパティと関連するのか指定する必要がある。
+    @OneToMany(mappedBy = "tweetUser")
+    private List<Tweet> tweets;
 
-    public void setIconPath(String iconPath) {
-        this.iconPath = iconPath;
-    }
+    //fetchtype: Eager フィールドの呼び出しを最初の呼び出しで行う  lazy:フィールドにアクセスが合った時点で
+    //cascade: このプロパティをどのように変更した際に関連するentityに変更を反映するか
+    //persist:新規保存 merge:更新 remove:削除 refresh:再取得したとき detatch:永続性コンテキストの管理外になったとき all:全て
+    //cascade={hoge,fuga}と複数指定できる
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "relation",
+                joinColumns = @JoinColumn(name = "user_id"),
+                inverseJoinColumns = @JoinColumn(name = "following_id"))
+    private List<User> following;
 
     public User(String userId, String password, String screenName) {
         this.userId = userId;
@@ -51,6 +58,31 @@ public class User{
 
     public User() {
     }
+
+    public List<Tweet> getTweets() {
+        return tweets;
+    }
+
+    public void setTweets(List<Tweet> tweets) {
+        this.tweets = tweets;
+    }
+
+    public List<User> getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(List<User> following) {
+        this.following = following;
+    }
+
+    public String getIconPath() {
+        return iconPath;
+    }
+
+    public void setIconPath(String iconPath) {
+        this.iconPath = iconPath;
+    }
+
 
     public String getBiography() {
         return biography;
@@ -99,5 +131,23 @@ public class User{
                 ", password='" + password + '\'' +
                 ", screenName='" + screenName + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+
+        User user = (User) o;
+
+        if (!getUserId().equals(user.getUserId())) return false;
+        return getPassword().equals(user.getPassword());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getUserId().hashCode();
+        result = 31 * result + getPassword().hashCode();
+        return result;
     }
 }

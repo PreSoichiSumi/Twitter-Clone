@@ -1,5 +1,7 @@
 package yoyoyousei.twitter.clone.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,23 +23,9 @@ import java.security.Principal;
 //component service repository controllerは基本どれも同じで、
 //クラスをDIコンテナにbeanとして登録する
 public class Util {
-    private FileSystemStorageService tmpService;
     private static String noIcon;
 
-    @Autowired
-    public Util(FileSystemStorageService tmpService) {
-        this.tmpService = tmpService;
-    }
-
-    //このアノテーションが付いたメソッドはDI後に実行される
-    @PostConstruct
-    public void init(){
-        noIcon= MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,"serveFile","noicon").build().toString();
-    }
-
-
-
-    public static User getUserFromPrincipal(Principal principal){
+    public static User getLoginuserFromPrincipal(Principal principal){
         Authentication authentication=(Authentication)principal;
         TwitterCloneUserDetails userDetails=TwitterCloneUserDetails.class.cast(authentication.getPrincipal());
         return userDetails.getuser();
@@ -51,5 +39,9 @@ public class Util {
         SecurityContextHolder.getContext().setAuthentication(newAuth);
     }
 
-    public static String getNoIcon() {return noIcon;}
+    public static String getNoIcon() {
+        if(noIcon==null)
+            noIcon= MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,"serveFile","noicon.png").build().toString();
+        return noIcon;
+    }
 }

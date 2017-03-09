@@ -9,7 +9,7 @@ $(document).on('ready', function() {
         browseClass: "btn btn-primary btn-block",
         showCaption: false,
         showRemove: false,
-        showUpload: false,
+        showUpload: true,
         autoReplace: true,
         allowedFileTypes:["image"]
     });

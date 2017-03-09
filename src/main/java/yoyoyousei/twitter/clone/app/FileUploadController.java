@@ -59,14 +59,16 @@ public class FileUploadController {
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=\""+file.getFilename()+"\"")
                 .body(file);
     }
+
     @PostMapping("/icon/upload")
     public String handleFileUpload(Principal principal, @RequestParam("icon") MultipartFile file,
                                    RedirectAttributes redirectAttributes){
         String filename=storageService.store(file);
 
-        User user = Util.getUserFromPrincipal(principal);
+        User user = Util.getLoginuserFromPrincipal(principal);
         Path path=storageService.load(filename);
 
+        log.info("path.filename.tostring: "+path.getFileName().toString());
         user.setIconPath( getPathStrFromFilename(path.getFileName().toString()) );
 
         try{

@@ -10,7 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import yoyoyousei.twitter.clone.domain.model.Tweet;
 import yoyoyousei.twitter.clone.domain.model.User;
 import yoyoyousei.twitter.clone.domain.service.*;
@@ -19,6 +21,7 @@ import yoyoyousei.twitter.clone.util.Util;
 
 import java.security.Principal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 //import yoyoyousei.twitter.clone.domain.service.UserService;
 
@@ -51,13 +54,18 @@ public class TwitterCloneController {
     @GetMapping(value = "/")
     String timeline(Principal principal, Model model) {
         model.addAttribute("tweetForm", new TweetForm());    //attribute can be omitted.
+
         //default attribute name is Classname whose first letter is lower case.
         model.addAttribute("tweets", tweetService.findAllDesc());
-        //model.addAttribute("tweet",new Tweet());
 
-        User loggedinUser = Util.getUserFromPrincipal(principal);
+        User loginUser = Util.getLoginuserFromPrincipal(principal);
+        model.addAttribute("userinfo", loginUser);
 
-        model.addAttribute("userinfo", loggedinUser);
+        model.addAttribute("recommend", getUnFollowing10Users(loginUser));
+
+        log.info("util.noicon: "+Util.getNoIcon());
+
+
         return "timeline";
     }
 
@@ -71,7 +79,7 @@ public class TwitterCloneController {
             return timeline(principal, model);
             //return "redirect:/";
         }
-        Tweet tweet = new Tweet(form.getContent(),Util.getUserFromPrincipal(principal));
+        Tweet tweet = new Tweet(form.getContent(),Util.getLoginuserFromPrincipal(principal));
 
         //tweetService.save(tweet);
         try {
@@ -150,7 +158,7 @@ public class TwitterCloneController {
         }
 
         try {
-            User newUser = userService.find(Util.getUserFromPrincipal(principal).getUserId());
+            User newUser = userService.find(Util.getLoginuserFromPrincipal(principal).getUserId());
             if (!Objects.equals(form.getScreenName(), ""))
                 newUser.setScreenName(form.getScreenName());
             if (!Objects.equals(form.getBiography(), ""))
@@ -175,6 +183,26 @@ public class TwitterCloneController {
         return "redirect:/";
     }
 
+    //TODO: urlにuseridを出さない
+    @PostMapping(value = "/follow/{userid}")
+    String follow(Principal principal, @PathVariable("userid") String userid, RedirectAttributes attributes){
+        User loginUser=Util.getLoginuserFromPrincipal(principal);
+        try {
+            User target = userService.find(userid);
+            loginUser.getFollowing().add(target);
+            userService.update(loginUser);  //DBに反映
+            Util.updateAuthenticate(principal, loginUser);  //セッション情報を更新
+        }catch (Exception e) {
+            Set<String> errors = new HashSet<>();
+            errors.add("unexpected error occured. try again.");
+            attributes.addFlashAttribute("errors", errors);
+            log.info(e.getMessage());
+        }
+        return "redirect:/";
+    }
+
+
+    //------Util--------------------------------------
 
     @GetMapping("/debug")
     String debug() {
@@ -182,8 +210,18 @@ public class TwitterCloneController {
         for (User u : users) {
             log.info(u.toString());
         }
-
-
         return "redirect:/";
+    }
+
+    List<User> getUnFollowing10Users(User loginUser){
+        log.info("loginuser is: " + loginUser.toString());
+
+        List<User> alluser=userService.findAll();
+        List<User> following=loginUser.getFollowing();
+        List<User> unFollowing10Users=alluser.stream()
+                                    .limit(10)
+                                    .filter(u->!(following.contains(u) || u.equals(loginUser) ))
+                                    .collect(Collectors.toList());
+        return unFollowing10Users;
     }
 }

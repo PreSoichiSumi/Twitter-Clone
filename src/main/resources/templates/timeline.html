@@ -66,13 +66,16 @@
                             <h4 th:if="${#lists.size(recommend)==0}">全ユーザをフォロー済みです</h4>
                             <ul class="list-group" th:each="u:${recommend}">
                                 <div class="row">
-                                    <div class="col-lg-4 col-md-4 col-sm-3">
-                                        <!--/*alt="Responsive image" で画像がグリッドに合わせてレスポンシブになる*/-->
-                                        <img th:src="${u.iconPath}" class="img-responsive img-rounded" alt="Responsive image" />
-                                    </div>
-                                    <div class="col-lg-8 col-md-8 col-sm-7">
-                                        <h4 class="pull-left" th:text="${u.screenName}" ></h4>
-                                    </div>
+                                    <form th:action="@{/follow/{followuser}(followuser=${u.userId})}" method="post">
+                                        <div class="col-lg-4 col-md-4 col-sm-3">
+                                            <!--/*alt="Responsive image" で画像がグリッドに合わせてレスポンシブになる*/-->
+                                            <img th:src="${u.iconPath}" class="img-responsive img-rounded" alt="Responsive image" />
+                                        </div>
+                                        <div class="col-lg-8 col-md-8 col-sm-7">
+                                            <h4 class="pull-left" th:text="${u.screenName}" ></h4><br/>
+                                            <button class="btn btn-primary pull-right" id="fbutton">Follow</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </ul>
                         </div>
@@ -103,7 +106,6 @@
                             </li>
                         </ul>
                     </div>
-
                 </div>
             </div>
         </div>
