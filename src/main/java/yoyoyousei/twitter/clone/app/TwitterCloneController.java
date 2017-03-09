@@ -21,7 +21,6 @@ import yoyoyousei.twitter.clone.util.Util;
 
 import java.security.Principal;
 import java.util.*;
-import java.util.stream.Collectors;
 
 //import yoyoyousei.twitter.clone.domain.service.UserService;
 
@@ -56,12 +55,14 @@ public class TwitterCloneController {
         model.addAttribute("tweetForm", new TweetForm());    //attribute can be omitted.
 
         //default attribute name is Classname whose first letter is lower case.
-        model.addAttribute("tweets", tweetService.findAllDesc());
+
 
         User loginUser = Util.getLoginuserFromPrincipal(principal);
         model.addAttribute("userinfo", loginUser);
 
-        model.addAttribute("recommend", getUnFollowing10Users(loginUser));
+        model.addAttribute("tweets", tweetService.getTimeLineforLoginUser(loginUser));
+
+        model.addAttribute("recommend", userService.getUnFollowing10Users(loginUser, this));
 
         log.info("util.noicon: "+Util.getNoIcon());
 
@@ -88,6 +89,8 @@ public class TwitterCloneController {
             Set<String> err = new HashSet<>();
             err.add("an error occured. try again.");
             model.addAttribute("errors", err);
+            log.info(e.toString());
+            e.printStackTrace();
             //return timeline(principal,model);
             return "redirect:/";
         }
@@ -195,6 +198,7 @@ public class TwitterCloneController {
         }catch (Exception e) {
             Set<String> errors = new HashSet<>();
             errors.add("unexpected error occured. try again.");
+            log.info(e.toString());
             attributes.addFlashAttribute("errors", errors);
             log.info(e.getMessage());
         }
@@ -213,15 +217,4 @@ public class TwitterCloneController {
         return "redirect:/";
     }
 
-    List<User> getUnFollowing10Users(User loginUser){
-        log.info("loginuser is: " + loginUser.toString());
-
-        List<User> alluser=userService.findAll();
-        List<User> following=loginUser.getFollowing();
-        List<User> unFollowing10Users=alluser.stream()
-                                    .limit(10)
-                                    .filter(u->!(following.contains(u) || u.equals(loginUser) ))
-                                    .collect(Collectors.toList());
-        return unFollowing10Users;
-    }
 }

@@ -41,7 +41,7 @@ public class User{
     //cascade: このプロパティをどのように変更した際に関連するentityに変更を反映するか
     //persist:新規保存 merge:更新 remove:削除 refresh:再取得したとき detatch:永続性コンテキストの管理外になったとき all:全て
     //cascade={hoge,fuga}と複数指定できる
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "relation",
                 joinColumns = @JoinColumn(name = "user_id"),
                 inverseJoinColumns = @JoinColumn(name = "following_id"))

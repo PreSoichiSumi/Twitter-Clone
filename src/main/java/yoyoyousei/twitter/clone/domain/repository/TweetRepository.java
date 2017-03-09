@@ -11,4 +11,5 @@ import java.util.List;
 //モデルのCLUD担当
 public interface TweetRepository extends JpaRepository<Tweet,Integer>{
     List<Tweet> findAllByOrderByPostTimeDesc();
+    List<Tweet> findTop100ByTweetUser_UserIdInOrderByPostTimeDesc(List<String> tweetUserId);
 }
