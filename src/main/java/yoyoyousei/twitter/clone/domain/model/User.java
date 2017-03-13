@@ -41,6 +41,7 @@ public class User{
     //cascade: このプロパティをどのように変更した際に関連するentityに変更を反映するか
     //persist:新規保存 merge:更新 remove:削除 refresh:再取得したとき detatch:永続性コンテキストの管理外になったとき all:全て
     //cascade={hoge,fuga}と複数指定できる
+    //勝手に反映してほしくないしcascade不要
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "relation",
                 joinColumns = @JoinColumn(name = "user_id"),
@@ -53,7 +54,7 @@ public class User{
         this.screenName = (screenName == null || screenName.equals("")) ?
                 "no name" : screenName;
         this.roleName = RoleName.USER;
-        this.iconPath = Util.getNoIcon();
+        this.iconPath = "/images/noicon.png";   //Util.getNoIcon();
     }
 
     public User() {

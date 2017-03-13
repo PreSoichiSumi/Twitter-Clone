@@ -100,7 +100,11 @@
                                     <div class="col-lg-9 col-md-9 col-sm-10">
                                         <p class="h4" th:text="${tweet.tweetUser.screenName}"></p>
                                         <p class="h5" th:text="${tweet.content}"></p>
-                                        <a class="pull-right" th:text="${#dates.format(tweet.postTime,'yyyy-MM-dd HH:mm:ss')}"></a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class="pull-right " th:text="${#dates.format(tweet.postTime,'yyyy-MM-dd HH:mm:ss')}"></div>
                                     </div>
                                 </div>
                             </li>

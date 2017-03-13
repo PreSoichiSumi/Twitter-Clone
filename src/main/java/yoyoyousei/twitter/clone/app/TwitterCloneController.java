@@ -186,7 +186,7 @@ public class TwitterCloneController {
         return "redirect:/";
     }
 
-    //TODO: urlにuseridを出さない
+    //TODO案: urlにuseridを出さない
     @PostMapping(value = "/follow/{userid}")
     String follow(Principal principal, @PathVariable("userid") String userid, RedirectAttributes attributes){
         User loginUser=Util.getLoginuserFromPrincipal(principal);

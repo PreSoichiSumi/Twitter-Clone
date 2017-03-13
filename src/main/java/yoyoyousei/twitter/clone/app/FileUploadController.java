@@ -63,6 +63,7 @@ public class FileUploadController {
     @PostMapping("/icon/upload")
     public String handleFileUpload(Principal principal, @RequestParam("icon") MultipartFile file,
                                    RedirectAttributes redirectAttributes){
+
         String filename=storageService.store(file);
 
         User user = Util.getLoginuserFromPrincipal(principal);

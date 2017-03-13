@@ -3,6 +3,7 @@ buildscript {
 		springBootVersion = '1.5.1.RELEASE'
 	}
 	repositories {
+		jcenter()
 		mavenCentral()
 	}
 	dependencies {
@@ -14,8 +15,12 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 
+//required to create executable jar
+apply plugin: 'application'
+mainClassName='yoyoyousei.twitter.clone.TwitterCloneApplication'
+
 jar {
-	baseName = 'twitter-clone'
+	baseName = 'TwitterClone'
 	version = '0.0.1-SNAPSHOT'
 }
 

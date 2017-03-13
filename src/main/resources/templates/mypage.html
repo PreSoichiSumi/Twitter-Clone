@@ -12,21 +12,21 @@
     </head>
     <body>
         <div class="container">
+            <div class="row col-md-8 col-md-offset-2">
             <fieldset>
-                <legend>Change User Profile</legend>
+                <legend>Update user profile</legend>
                 <p style="color: red;" th:each="e:${errors}" th:text="${e}"></p>
-
                 <form class="form-horizontal"  th:action="@{/modify}" method="post" th:object="${userForm}">
                     <div class="form-group">
-                        <label class="col-md-4 control-label" for="screenname">HandleName</label>
-                        <div class="col-md-4">
+                        <label class="col-md-3 control-label" for="screenname">HandleName</label>
+                        <div class="col-md-9">
                             <input name="screenname" id="screenname"
                                    th:field="*{screenName}" placeholder="HandleName" class="form-control input-md"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 control-label" for="bio">Biography</label>
-                        <div class="col-md-4">
+                        <label class="col-md-3 control-label" for="bio">Biography</label>
+                        <div class="col-md-9">
                             <textarea class="form-control" name="bio" id="bio"
                                       th:field="*{biography}" placeholder="Biography" >Biography</textarea>
                         </div>
@@ -40,31 +40,38 @@
 
                     <!-- Button -->
                     <div class="form-group">
-                        <label class="col-md-4 control-label" for="singlebutton"></label>
-                        <div class="col-md-4">
+                        <label class="col-md-3 control-label" for="singlebutton"></label>
+                        <div class="col-md-9">
                             <button id="singlebutton" name="singlebutton" class="btn btn-primary">Submit</button>
                         </div>
                     </div>
                 </form>
+            </fieldset>
+            <fieldset>
+                <legend>Update user icon</legend>
                 <form class="form-horizontal" th:action="@{/files/icon/upload}" method="post"  enctype="multipart/form-data" >
                     <div class="form-group">
-                        <label class="col-md-4 control-label">User icon</label>
-                        <div class="col-md-4">
-                            <input id="input-1" type="file" class="file" name="icon"/>
+                        <label class="col-md-3 control-label">Upload</label>
+                        <div class="col-md-9">
+                            <input id="input-1" type="file" class="file" name="icon" accept=".jpg,jpeg,png,gif,bmp"/>
                         </div>
                     </div>
                 </form>
             </fieldset>
+            </div>
         </div>
+
 
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
         <link href="/css/signin.css" rel="stylesheet" />
+        <link href="/css/fileinput.min.css" rel="stylesheet" />
         <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
         <script src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js'></script>
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.3.1/css/fileinput.min.css" />
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.3.1/js/fileinput.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.3.1/js/fileinput_locale_ja.min.js"></script>
+        <script src="/js/fileinput.min.js"></script>
         <script src="/js/input-setting.js"></script>
     </body>
 </html>
