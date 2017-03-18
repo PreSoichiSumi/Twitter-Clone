@@ -1,4 +1,5 @@
 # Twitter-Clone
 twitter-clone implemented by Java and Spring-Boot
 
-Screenshot
+## Screenshot
+![スクリーンショット](https://github.com/SoichiSumi/Twitter-Clone/blob/master/ss.png "SS")
