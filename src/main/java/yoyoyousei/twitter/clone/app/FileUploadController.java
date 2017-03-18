@@ -64,6 +64,15 @@ public class FileUploadController {
     public String handleFileUpload(Principal principal, @RequestParam("icon") MultipartFile file,
                                    RedirectAttributes redirectAttributes){
 
+        String[] res=file.getOriginalFilename().split("\\.");
+        String suffix=res[res.length-1];
+        if(!isImageExtension(suffix)){
+            Set<String> errors=new HashSet<>();
+            errors.add("only image files can be uploaded.");
+            redirectAttributes.addFlashAttribute("errors",errors);
+            return "redirect:/update";
+        }
+
         String filename=storageService.store(file);
 
         User user = Util.getLoginuserFromPrincipal(principal);
@@ -78,13 +87,13 @@ public class FileUploadController {
             Set<String> errors=new HashSet<>();
             errors.add(e.getMessage());
             redirectAttributes.addFlashAttribute("errors",errors);
-            return "redirect:/modify";
+            return "redirect:/update";
         }catch (Exception e){
             Set<String> errors=new HashSet<>();
             errors.add("unexpected error occured. try again.");
             log.info(e.getMessage());
             redirectAttributes.addFlashAttribute("errors",errors);
-            return "redirect:/modify";
+            return "redirect:/update";
         }
 
         Util.updateAuthenticate(principal,user);
@@ -96,6 +105,14 @@ public class FileUploadController {
         return MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,"serveFile",filename).build().toString();
     }
 
+    public boolean isImageExtension(String extension){
+        for (String s:Util.imageExtensions){
+            if(s.equals(extension)){
+                return true;
+            }
+        }
+        return false;
+    }
 
     @ExceptionHandler(StorageFileNotFoundException.class)
     public ResponseEntity handleStorageFileNotFound(StorageFileNotFoundException exc){

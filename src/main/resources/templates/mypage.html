@@ -16,7 +16,7 @@
             <fieldset>
                 <legend>Update user profile</legend>
                 <p style="color: red;" th:each="e:${errors}" th:text="${e}"></p>
-                <form class="form-horizontal"  th:action="@{/modify}" method="post" th:object="${userForm}">
+                <form class="form-horizontal"  th:action="@{update}" method="post" th:object="${userForm}">
                     <div class="form-group">
                         <label class="col-md-3 control-label" for="screenname">HandleName</label>
                         <div class="col-md-9">
@@ -37,7 +37,6 @@
                             <input id="filebutton" name="filebutton" class="input-file" type="file" />
                         </div>
                     </div>*/-->
-
                     <!-- Button -->
                     <div class="form-group">
                         <label class="col-md-3 control-label" for="singlebutton"></label>
@@ -50,10 +49,11 @@
             <fieldset>
                 <legend>Update user icon</legend>
                 <form class="form-horizontal" th:action="@{/files/icon/upload}" method="post"  enctype="multipart/form-data" >
+                <!--<form class="form-horizontal" enctype="multipart/form-data" method="post">-->
                     <div class="form-group">
                         <label class="col-md-3 control-label">Upload</label>
                         <div class="col-md-9">
-                            <input id="input-1" type="file" class="file" name="icon" accept=".jpg,jpeg,png,gif,bmp"/>
+                            <input id="input-1" type="file" class="file" name="icon" accept="image/*"/>
                         </div>
                     </div>
                 </form>
@@ -67,12 +67,8 @@
         <link href="/css/fileinput.min.css" rel="stylesheet" />
         <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
         <script src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js'></script>
-
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.3.1/css/fileinput.min.css" />
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.3.1/js/fileinput.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.3.1/js/fileinput_locale_ja.min.js"></script>
         <script src="/js/fileinput.min.js"></script>
-        <script src="/js/input-setting.js"></script>
+        <!--<script src="/js/input-setting.js"></script>-->
     </body>
 </html>
 

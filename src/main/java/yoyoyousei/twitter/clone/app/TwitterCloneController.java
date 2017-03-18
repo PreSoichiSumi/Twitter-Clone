@@ -142,21 +142,21 @@ public class TwitterCloneController {
         return "redirect:/loginForm";
     }
 
-    @GetMapping("/modify")
-    String modifyUserDataPage(Model model) {
+    @GetMapping("/update")
+    String updateUserDataPage(Model model) {
         model.addAttribute("userForm", new UserForm());
         //model.addAttribute("uploadForm",new UploadFileForm());
         return "mypage";
     }
 
-    @PostMapping("/modify")
-    String modifyUserData(Principal principal, @Validated UserForm form, BindingResult bindingResult,
+    @PostMapping("/update")
+    String updateUserData(Principal principal, @Validated UserForm form, BindingResult bindingResult,
                           Model model) {
         if (bindingResult.hasErrors()) {
             Set<String> err = new HashSet<>();
             bindingResult.getAllErrors().forEach(e -> err.add(e.getDefaultMessage()));
             model.addAttribute("errors", err);
-            //return modifyUserDataPage(model);
+            //return updateUserDataPage(model);
             return "mypage"; //多分上と同義
         }
 

@@ -25,6 +25,8 @@ import java.security.Principal;
 public class Util {
     private static String noIcon;
 
+    public static String[] imageExtensions ={"jpg","jpeg","png","gif"};
+
     public static User getLoginuserFromPrincipal(Principal principal){
         Authentication authentication=(Authentication)principal;
         TwitterCloneUserDetails userDetails=TwitterCloneUserDetails.class.cast(authentication.getPrincipal());
